@@ -1,0 +1,12 @@
+﻿  AmericanNativePoker.c
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(131,31): warning C4474: 'scanf_s' : 서식 문자열에 전달된 인수가 너무 많습니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(131,31): message : 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 2개가 제공되었습니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(306,33): warning C4474: 'scanf_s' : 서식 문자열에 전달된 인수가 너무 많습니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(306,33): message : 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 2개가 제공되었습니다.
+  코드를 생성하고 있습니다.
+  Previous IPDB not found, fall back to full compilation.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(522): warning C4716: 'showRules': 값을 반환해야 합니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(492): warning C4716: 'play': 값을 반환해야 합니다.
+  All 15 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  AmericanNativePoker.vcxproj -> C:\Users\johnyun\source\repos\AmericanNativePoker\x64\Release\AmericanNativePoker.exe
