@@ -1,0 +1,14 @@
+﻿  AmericanNativePoker.c
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(81,11): warning C4477: 'scanf_s' : 서식 문자열 '%d'에 'int *' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'int'입니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(81,24): warning C4474: 'scanf_s' : 서식 문자열에 전달된 인수가 너무 많습니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(81,24): message : 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 2개가 제공되었습니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(117,18): warning C4047: '=': 'int *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(230,26): warning C4474: 'scanf_s' : 서식 문자열에 전달된 인수가 너무 많습니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(230,26): message : 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 2개가 제공되었습니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(316,23): warning C4047: '==': 'int (__cdecl *)()'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(390,23): warning C4047: '==': 'int (__cdecl *)()'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(435,22): warning C4047: '==': 'int (__cdecl *)()'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(257): warning C4716: 'setFirstPlayer': 값을 반환해야 합니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(480): warning C4716: 'showRules': 값을 반환해야 합니다.
+C:\Users\johnyun\source\repos\AmericanNativePoker\AmericanNativePoker\AmericanNativePoker.c(450): warning C4716: 'startGame': 값을 반환해야 합니다.
+  AmericanNativePoker.vcxproj -> C:\Users\johnyun\source\repos\AmericanNativePoker\x64\Debug\AmericanNativePoker.exe
