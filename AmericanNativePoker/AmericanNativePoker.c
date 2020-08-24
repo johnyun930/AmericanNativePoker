@@ -78,7 +78,7 @@ void playCall() {
 void playRaise(int* raisecheck) {
 	while (1) {
 		printf("how many chips you want to raise? ");
-		scanf_s("%d", raise, 2);
+		scanf_s("%d", &raise, 2);
 		cleanBuffer();
 		if (raise > playerchip) {
 			printf("Sorry, you have only %d chips. Please try agin", playerchip);
@@ -86,6 +86,10 @@ void playRaise(int* raisecheck) {
 		}
 		else if (raise < betting && (playerchip - raise) <= 0) {
 			printf("Sorry, Raise needs to be more chips than last betting");
+			continue;
+		}
+		else if (raise > comchip) {
+			printf("Another player has only %d, please bet less than another player has.", comchip);
 			continue;
 		}
 		break;
@@ -111,9 +115,25 @@ void playRaise(int* raisecheck) {
 	else {
 		if ((playercard < 4 || playercard >8) && betting <= 4) {
 			//Raise 4chips.
-			comchip -= betting * 2;
-			totalchip += betting * 2;
-			printf("Another player raises 4 more chip \n");
+			if (playerchip > 4) {
+				if (comchip >= 4) {
+					comchip -= betting * 2;
+					totalchip += betting * 2;
+					printf("Another player raises %d more chip \n", betting);
+				}
+				else {
+					totalchip = totalchip + comchip + betting;
+					comchip = 0;
+					printf("Another player ALL IN \n", betting);
+
+				}
+			}
+			else {
+				comchip = comchip - betting - playerchip;
+				totalchip = totalchip +betting + playerchip;
+				betting = playerchip;
+				printf("Another player raises %d more chip \n", betting);
+			}
 			raisecheck = 1;
 		}
 		else if (playercard < 5 && betting <= 10) {
@@ -137,26 +157,51 @@ void playRaise(int* raisecheck) {
 void playBetting() {
 	while (1) {
 		int raisecheck = 0;
-		printf("Choose 1. Call, 2. Raise. 3.Die : ");
-		int selection = getchar();
-		cleanBuffer();
-		if (selection == '1') {
-			playCall();
+		if (betting != playerchip) {
+			printf("Choose 1. Call, 2. Raise. 3.Die : ");
+			int selection = getchar();
+			cleanBuffer();
+			if (selection == '1') {
+				playCall();
 
-		}
-		else if (selection == '2') {
-			playRaise(&raisecheck);
+			}
+			else if (selection == '2') {
+				playRaise(&raisecheck);
 
-		}
-		else if (selection == '3') {
-			printf("You plays Die \n");
-			playerdie = 1;
+			}
+			else if (selection == '3') {
+				printf("You plays Die \n");
+				playerdie = 1;
 
+			}
+			else {
+				printf("Sorry please choose in the options. Try again");
+				continue;
+			}
+			if (raisecheck == 1) {
+				continue;
+			}
+			break;
 		}
-		if (raisecheck == 1) {
-			continue;
+		else {
+			printf("Choose 1. Call, 2. Die : ");
+			int selection = getchar();
+			cleanBuffer();
+			if (selection == '1') {
+				playCall();
+
+			}
+			else if (selection == '2') {
+				printf("You plays Die \n");
+				playerdie = 1;
+
+			}
+			else {
+				printf("Sorry please choose in the options. Try again");
+				continue;
+			}
+			break;
 		}
-		break;
 	}
 }
 
@@ -187,13 +232,11 @@ void openCard() {
 		if (playercard > computercard) {
 			printf("You wins Game \n");
 			playerchip += totalchip;
-			totalchip = 0;
 			firstplayer = 0;
 		}
 		else if (computercard > playercard) {
 			printf("Another player wins Game \n");
 			comchip += totalchip;
-			totalchip = 0;
 			firstplayer = 1;
 		}
 		else {
@@ -201,13 +244,13 @@ void openCard() {
 			draw = 1;
 		}
 	}
-	printf("Your card is %d, and player card is %d", playercard, computercard);
-	betting = 0;
-	Sleep(2000);
-
+	printf("Your card is %d, and player card is %d. \n", playercard, computercard);
 	if (draw != 1) {
 		totalchip = 0;
 	}
+	betting = 0;
+	Sleep(2000);
+
 
 }
 
@@ -231,30 +274,38 @@ int setFirstPlayer(int*deck) {
 		cleanBuffer();
 		if (choice > 20 || choice < 1) {
 			printf("Sorry Please choose between 1 to 20 only. Try Again \n");
+			continue;
 		}
-		else {
-			break;
-		}
-	}
+		
 		int randnum = rand() % 20;
-		while (randnum != choice) {
+		while (randnum == choice) {
 			randnum = rand() % 20;
 		}
-		printf("Your card is %d, and Another player card is %d \n", deck[randnum], deck[choice]);
+		printf("Your card is %d, and Another player card is %d \n", deck[choice], deck[randnum] );
 		if (deck[randnum] > deck[choice]) {
 			firstplayer = 1;
 			printf("Another player is the first player \n");
 		}
-		else {
+		else if(deck[randnum] < deck[choice]) {
 			firstplayer = 0;
 			printf("You are the first player \n");
 		}
+		else {
+			printf("It is draw. Try Again \n");
+			shuffleDeck(deck);
+			continue;
+		}
+		break;
+	}
+
 		
 	
 	Sleep(2000);
 	cleanScreen();
 
 }
+
+
 
 
 int startGame(void) {
@@ -276,16 +327,25 @@ int startGame(void) {
 				printf("Last round was draw, so continuing the game with new cards \n");
 			}
 			draw = 0;
+			if (firstplayer != 1) {
+				playercard = drawDeck(deck, numofdeck - 1);
+				numofdeck--;
+				computercard = drawDeck(deck, numofdeck - 1);
+				numofdeck--;
+			}
+			else {
+				computercard = drawDeck(deck, numofdeck - 1);
+				numofdeck--;
+				playercard = drawDeck(deck, numofdeck - 1);
+				numofdeck--;
+			}
 			if (playerchip > 0 && comchip > 0) {
 				printf("Each player pay a chip to participate in the game \n");	
 				printf("Another player chip: %d , Player chips: %d \n", comchip, playerchip);
 				//first betting for the player.
 				if (firstplayer == 1) {
-					computercard = drawDeck(deck, numofdeck - 1);
-					numofdeck--;
-					playercard = drawDeck(deck, numofdeck - 1);
 					printf("Another player's card is %d \n", computercard);
-					numofdeck--;
+
 					if (comchip > 5) {
 						if (playercard < 5) {
 							betting = (rand() % 3) + 1;
@@ -313,26 +373,25 @@ int startGame(void) {
 					}
 					playBetting();
 					openCard();
-					if (checkChips==1) {
+					if (checkChips()) {
 						break;
 					}
-					
 				}
 				else {
 					printf("You are the first player \n");
-					playercard = drawDeck(deck, numofdeck - 1);
-					numofdeck--;
-					computercard = drawDeck(deck, numofdeck - 1);
-					numofdeck--;
 					printf("Another player's card is %d \n", computercard);
-					printf("Please Type how many coins you raise: ");
 					while (1) {
+						printf("Please Type how many coins you raise: ");
 						scanf_s("%d", &betting);
 						cleanBuffer();
 						if (betting > playerchip) {
 							printf("Sorry, you have only %d chips. Try again \n", playerchip);
-							printf("Please Type how many coins you raise: ");
 							continue;
+						}
+						else if (betting > comchip) {
+							printf("Sorry, another player has only %d chips. Try again \n", playerchip);
+							continue;
+
 						}
 
 						if (betting == playerchip) {
@@ -351,22 +410,32 @@ int startGame(void) {
 							else {
 								comchip -= betting;
 								totalchip += (betting * 2);
-								printf("Another player play call with %d. \n", betting);
+								printf("Another player plays call with %d. \n", betting);
 							}
 							break;
 						}
 						else if ((playercard < 4 || playercard >8) && betting <= 4)
 						{
 							//Raise 4chips.
-							comchip -= (betting * 2);
-							totalchip += (betting * 2);
-							printf("Another player raises 4 more chip. \n");
+							if (comchip > (betting * 2)) {
+								comchip -= (betting * 2);
+								totalchip += (betting * 2);
+							}
+							else {
+								totalchip = totalchip + betting + comchip;
+								betting = comchip - betting;
+								comchip = 0;
+								printf("Another player plays ALL IN \n");
+
+							}
+							printf("Another player raises %d more chip. \n", betting);
 							playBetting();
+
 						}
 						else if (playercard < 5 && betting <= 10) {
 							comchip -= betting;
 							totalchip += (betting * 2);
-							printf("Another player play call with %d. \n", betting);
+							printf("Another player plays call with %d. \n", betting);
 							break;
 						}
 						else if (playercard > 8) {
@@ -384,10 +453,8 @@ int startGame(void) {
 
 					}
 					openCard();
-					if (draw != 1) {
-						totalchip = 0;
-					}
-					if (checkChips==1) {
+					
+					if (checkChips()) {
 						break;
 					}
 
@@ -432,10 +499,11 @@ int startGame(void) {
 				if (draw != 1) {
 					totalchip = 0;
 				}
-				if (checkChips==1) {
-					break;
-				}
+				
 
+			}
+			if (checkChips == 1) {
+				break;
 			}
 					
 			}
@@ -486,7 +554,7 @@ int main(void)
 	int selection = 0;
 	printf("Welcome to American Native Poker \n");
 	while (1) {
-		printf("Type 1 to play or 2 for rules: ");
+		printf("Type 1 to play or 2 for rules. To Exit type x: ");
 		selection = getchar();
 		cleanBuffer();
 		if (selection == '1') {
@@ -495,6 +563,9 @@ int main(void)
 		else if (selection == '2') {
 			cleanScreen();
 			showRules();
+	}
+		else if (selection == 'x') {
+			break;
 		}
 		else {
 			printf("Please type 1 or 2 only please");
